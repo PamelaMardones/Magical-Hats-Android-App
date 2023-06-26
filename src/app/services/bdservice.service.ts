@@ -95,6 +95,7 @@ export class BdserviceService {
 
   }
 
+
   async presentAlert(msj:string) {
     const alert = await this.alertController.create({
       header: 'Alert',
@@ -104,5 +105,21 @@ export class BdserviceService {
 
     await alert.present();
   }
+  login(email: string, password: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.fetchUsuarios().subscribe(usuarios => {
+        const user = usuarios.find(u => u.mail === email && u.contrasena === password);
+        if (user) {
+          resolve(true); // Credenciales válidas
+        } else {
+          resolve(false); // Credenciales inválidas
+        }
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+
 }
 
