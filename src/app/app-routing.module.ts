@@ -9,21 +9,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: 'e404',
-    pathMatch: 'full'
-  },
-  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
@@ -38,14 +23,17 @@ const routes: Routes = [
   {
     path: 'products',
     loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule),
+    canActivate: [BdserviceService]
   },
   {
     path: 'my-shopping',
     loadChildren: () => import('./my-shopping/my-shopping.module').then( m => m.MyShoppingPageModule),
+    canActivate: [BdserviceService]
   },
   {
     path: 'cart',
     loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule),
+    canActivate: [BdserviceService]
   },
   {
     path: 'home',
@@ -55,7 +43,12 @@ const routes: Routes = [
   {
     path: 'e404',
     loadChildren: () => import('./e404/e404.module').then( m => m.E404PageModule)
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
 
 
 ];

@@ -127,8 +127,14 @@ export class BdserviceService {
         });
     });
   }
-  canActivate(){
-    this.router.navigate(['login'])
-    return false;
+  canActivate(): boolean {
+    const isLoggedIn = true; 
+
+    if (isLoggedIn) {
+      return true;
+    } else {
+      this.router.navigate(['login']);
+      return false;
+    }
   }
 }
