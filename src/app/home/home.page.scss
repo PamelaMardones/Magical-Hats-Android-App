@@ -1,3 +1,23 @@
+.animated-content {
+    animation-name: slideIn;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  
+
+
 ion-content {
     --ion-background-color: #f4f4f4;
   }

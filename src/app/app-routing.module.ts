@@ -1,10 +1,26 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { BdserviceService } from './services/bdservice.service';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'e404',
     pathMatch: 'full'
   },
   {
@@ -17,23 +33,30 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule),
   },
   {
     path: 'products',
-    loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule)
+    loadChildren: () => import('./products/products.module').then( m => m.ProductsPageModule),
   },
   {
     path: 'my-shopping',
-    loadChildren: () => import('./my-shopping/my-shopping.module').then( m => m.MyShoppingPageModule)
+    loadChildren: () => import('./my-shopping/my-shopping.module').then( m => m.MyShoppingPageModule),
   },
   {
     path: 'cart',
-    loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule)
-  },  {
+    loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule),
+  },
+  {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canActivate: [BdserviceService]
+  },
+  {
+    path: 'e404',
+    loadChildren: () => import('./e404/e404.module').then( m => m.E404PageModule)
   }
+
 
 ];
 

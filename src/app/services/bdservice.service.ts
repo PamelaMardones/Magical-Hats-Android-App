@@ -3,6 +3,7 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario } from './usuario.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class BdserviceService {
  
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
   
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private alertController: AlertController) { 
+  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private alertController: AlertController, private router: Router) { 
     this.crearBD();
   }
 
@@ -125,5 +126,9 @@ export class BdserviceService {
           reject(error);
         });
     });
+  }
+  canActivate(){
+    this.router.navigate(['login'])
+    return false;
   }
 }
