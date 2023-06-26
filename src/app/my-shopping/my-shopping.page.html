@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="header-title">Completar tu pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated-content ion-text-center">
+  <ion-card class="order-card">
+    <ion-card-header class="order-header">
+      Detalle de la compra
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="carrito.length > 0">
+        <ion-item *ngFor="let producto of carrito" class="order-item">
+          <ion-label>{{ producto.nombre }}</ion-label>
+          <ion-note slot="end">$ {{ producto.precio | number:'1.0-0'}}</ion-note>
+        </ion-item>
+        <div class="total-container">
+          <p class="total-text">Total a pagar:</p>
+          <p class="total-value">$ {{ cartService.totalValue | number:'1.0-0'}}</p>
+        </div>
+      </ion-list>
+      <div *ngIf="carrito.length === 0" class="empty-cart-message">
+        No hay productos en el carrito
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="shipping-card">
+    <ion-card-header class="shipping-header">
+      Dirección de envío
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Dirección:</ion-label>
+        <ion-input type="text" [(ngModel)]="direccion"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ciudad:</ion-label>
+        <ion-input type="text" [(ngModel)]="ciudad"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="payment-card">
+    <ion-card-header class="payment-header">
+      Forma de pago
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="formaPago">
+          <ion-item>
+            <ion-label>Tarjeta de crédito</ion-label>
+            <ion-radio slot="start" value="tarjeta"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>Tarjeta de débito</ion-label>
+            <ion-radio slot="start" value="paypal"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full" class="purchase-button" (click)="realizarCompra()">Realizar compra</ion-button>
+</ion-content>

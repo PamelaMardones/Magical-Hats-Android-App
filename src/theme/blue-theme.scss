@@ -1,0 +1,13 @@
+$blue-primary: #2196f3;
+$blue-secondary: #03a9f4;
+$blue-tertiary: #e0e0e0;
+// ...
+
+.blue-theme {
+  --ion-color-primary: $blue-primary;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-secondary: $blue-secondary;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-tertiary: $blue-tertiary;
+  // ...
+}

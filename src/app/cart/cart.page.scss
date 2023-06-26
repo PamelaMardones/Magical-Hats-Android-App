@@ -1,0 +1,97 @@
+.animated-content {
+    animation-name: slideIn;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .cart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .cart-content {
+    max-width: 110%;
+    margin: 0 -5%;
+    text-align: center;
+  }
+  
+  
+  .cart-header {
+    margin-bottom: 20px;
+  }
+  
+  .cart-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .cart-total {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .cart-list {
+    margin-bottom: 20px;
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .cart-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .cart-label {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .cart-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .cart-price {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .cart-remove-button {
+    font-size: 14px;
+    color: white;
+  }
+  
+  .cart-remove-button:hover {
+    color: white;
+  }
+  
+  ion-content {
+    overflow: auto;
+  }
+
+  
