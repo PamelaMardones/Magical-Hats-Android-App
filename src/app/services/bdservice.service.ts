@@ -26,8 +26,8 @@ export class BdserviceService {
   async presentToast(msj: string) {
     const toast = await this.toastController.create({
       message: msj,
-      duration: 3000,
-      icon: 'globe'
+      duration: 2000,
+      position: 'bottom'
     });
 
     await toast.present();
@@ -105,21 +105,25 @@ export class BdserviceService {
 
     await alert.present();
   }
-  login(email: string, password: string): Promise<boolean> {
+
+  async login(email: string, password: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this.fetchUsuarios().subscribe(usuarios => {
-        const user = usuarios.find(u => u.mail === email && u.contrasena === password);
-        if (user) {
-          resolve(true); // Credenciales válidas
-        } else {
-          resolve(false); // Credenciales inválidas
-        }
-      }, error => {
-        reject(error);
-      });
+      const query = 'SELECT * FROM usuario WHERE mail = ? AND contrasena = ?';
+      const params = [email, password];
+
+      this.database.executeSql(query, params)
+        .then(result => {
+          if (result.rows.length > 0) {
+            this.presentToast('Inicio de sesión exitoso');
+            resolve(true); // Credenciales válidas
+          } else {
+            this.presentToast('Credenciales inválidas');
+            resolve(false); // Credenciales inválidas
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   }
-
-
 }
-

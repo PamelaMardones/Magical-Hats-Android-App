@@ -1,0 +1,35 @@
+ion-content {
+    --ion-background-color: #f4f4f4;
+  }
+  
+  .home-card {
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .welcome-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .welcome-message {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  ion-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+  }
+  
+  .contact-info {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }

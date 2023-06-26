@@ -15,11 +15,11 @@
       </ion-label>
       <ion-item>
         <ion-label position="floating">Email:</ion-label>
-        <ion-input type="email" [(ngModel)]="loginUser.email" required></ion-input>
+        <ion-input type="email" [(ngModel)]="email" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Contraseña:</ion-label>
-        <ion-input type="password" [(ngModel)]="loginUser.password" required></ion-input>
+        <ion-input type="password" [(ngModel)]="password" required></ion-input>
       </ion-item>
       <ion-button expand="full" class="login-button" (click)="login()">Iniciar sesión</ion-button>
       <div class="register-link">
@@ -27,4 +27,5 @@
       </div>
     </ion-card-content>
   </ion-card>
+  <ion-img src="assets/kuriboh.jpg"></ion-img>
 </ion-content>

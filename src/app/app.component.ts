@@ -8,6 +8,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Login', url: 'login', icon: 'log-in' },
     { title: 'Register', url: 'register', icon: 'book' },
+    { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Productos', url: 'products', icon: 'bag' },
     { title: 'Carrito', url: 'cart', icon: 'cart' },
     { title: 'Completar pedido', url: 'my-shopping', icon: 'pricetags' }
