@@ -9,18 +9,20 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class BdserviceService {
-
   public database!: SQLiteObject;
-
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY autoincrement, mail VARCHAR(75) NOT NULL, contrasena VARCHAR(20) NOT NULL);";
-
   registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario,mail,contrasena) VALUES (1,'pamela.mardones@gmail.com','#1234');";
-
-  listaUsuario = new BehaviorSubject([]);
- 
+  listaUsuario = new BehaviorSubject<Usuario[]>([]);
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private alertController: AlertController, private router: Router) { 
+  private usuarioAutenticado: Usuario | null = null;
+
+  constructor(
+    private sqlite: SQLite,
+    private platform: Platform,
+    private toastController: ToastController,
+    private alertController: AlertController,
+    private router: Router
+  ) {
     this.crearBD();
   }
 
@@ -43,19 +45,20 @@ export class BdserviceService {
   }
 
   crearBD() {
-
     this.platform.ready().then(() => {
-
-      this.sqlite.create({
-        name: 'bdusuarios.db',
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        this.database = db;
-        this.crearTablas();
-      }).catch(e => {
-        this.presentToast("Error BD:" + e);
-      })
-    })
+      this.sqlite
+        .create({
+          name: 'bdusuarios.db',
+          location: 'default'
+        })
+        .then((db: SQLiteObject) => {
+          this.database = db;
+          this.crearTablas();
+        })
+        .catch(e => {
+          this.presentToast('Error BD: ' + e);
+        });
+    });
   }
 
   async crearTablas() {
@@ -64,44 +67,43 @@ export class BdserviceService {
       await this.database.executeSql(this.registroUsuario, []);
       this.buscarUsuarios();
       this.isDBReady.next(true);
-
     } catch (e) {
-      this.presentToast("Error Tablas: " + e);
+      this.presentToast('Error Tablas: ' + e);
     }
-
   }
 
   buscarUsuarios() {
-    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
-      let items: Usuario[] = [];
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          items.push({
-            id_usuario: res.rows.item(i).id_usuario,
-            mail: res.rows.item(i).mail,
-            contrasena: res.rows.item(i).contrasena
-          })
+    return this.database
+      .executeSql('SELECT * FROM usuario', [])
+      .then(res => {
+        let items: Usuario[] = [];
+        if (res.rows.length > 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            items.push({
+              id_usuario: res.rows.item(i).id_usuario,
+              mail: res.rows.item(i).mail,
+              contrasena: res.rows.item(i).contrasena
+            });
+          }
         }
-
-      }
-      this.listaUsuario.next(items as any);
-    })
+        this.listaUsuario.next(items);
+      });
   }
 
-  insertarUsuarios(mail: any, contrasena: any){
-    let data = [mail,contrasena];
-    return this.database.executeSql('INSERT INTO usuario(mail,contrasena) VALUES (?,?)',data).then(res=>{
-      this.buscarUsuarios();
-    });
-
+  insertarUsuarios(mail: any, contrasena: any) {
+    let data = [mail, contrasena];
+    return this.database
+      .executeSql('INSERT INTO usuario(mail,contrasena) VALUES (?,?)', data)
+      .then(res => {
+        this.buscarUsuarios();
+      });
   }
 
-
-  async presentAlert(msj:string) {
+  async presentAlert(msj: string) {
     const alert = await this.alertController.create({
       header: 'Alert',
       message: msj,
-      buttons: ['OK'],
+      buttons: ['OK']
     });
 
     await alert.present();
@@ -112,14 +114,21 @@ export class BdserviceService {
       const query = 'SELECT * FROM usuario WHERE mail = ? AND contrasena = ?';
       const params = [email, password];
 
-      this.database.executeSql(query, params)
+      this.database
+        .executeSql(query, params)
         .then(result => {
           if (result.rows.length > 0) {
             this.presentToast('Inicio de sesión exitoso');
-            resolve(true); // Credenciales válidas
+            this.usuarioAutenticado = {
+              id_usuario: result.rows.item(0).id_usuario,
+              mail: result.rows.item(0).mail,
+              contrasena: result.rows.item(0).contrasena
+            };
+            resolve(true); 
           } else {
             this.presentToast('Credenciales inválidas');
-            resolve(false); // Credenciales inválidas
+            this.usuarioAutenticado = null;
+            resolve(false); 
           }
         })
         .catch(error => {
@@ -127,8 +136,17 @@ export class BdserviceService {
         });
     });
   }
+
+  isAuthenticated(): boolean {
+    const usuarios: Usuario[] = this.listaUsuario.getValue();
+    if (usuarios.length > 0) {
+      return this.usuarioAutenticado !== null;
+    }
+    return false; 
+  }
+
   canActivate(): boolean {
-    const isLoggedIn = true; 
+    const isLoggedIn = this.isAuthenticated();
 
     if (isLoggedIn) {
       return true;
