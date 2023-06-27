@@ -9,12 +9,39 @@
 
 
 <ion-content class="animated-content ion-text-center">
-  <ion-card class="home-card">
-    <ion-card-content>
-      <h1 class="welcome-title">¡Bienvenido a MagicalHatsApp!</h1>
-        <p class="welcome-message">Gracias por usar nuestra aplicación, te invito a revisar nuestros productos.</p>
-        <ion-img src="assets/home.jpeg"></ion-img>
-        <h2 class="contact-info">Si necesitas ayuda, contáctanos a contacto@magicalhats.cl</h2> 
-    </ion-card-content>
-  </ion-card>
+  <div class="main-container">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <h1 class="login-title">Bienvenido(a) a MagicalHatsApp</h1>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="youtube-search">
+          <h2>¡Te dejamos un buscador para que aprendas a jugar cualquier juego de cartas que te propongas!</h2>
+          <ion-item>
+            <ion-label position="floating">Buscar:</ion-label>
+            <ion-input type="text" [(ngModel)]="query"></ion-input>
+          </ion-item>
+          <ion-button expand="full" (click)="buscarVideos()">Buscar</ion-button>
+        </div> 
+        <div class="video-results" *ngIf="videos && videos.length > 0">
+          <h3>Resultados de búsqueda:</h3>
+          <ion-list>
+            <ion-item *ngFor="let video of videos">
+              <ion-thumbnail slot="start">
+                <img [src]="video.snippet.thumbnails.default.url" alt="Thumbnail">
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ video.snippet.title }}</h2>
+                <p>{{ video.snippet.description }}</p>
+              </ion-label>
+              <ion-button fill="clear" slot="end" [href]="'https://www.youtube.com/watch?v=' + video.id.videoId" target="_blank">
+                Ver más
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-img src="assets/home.jpeg"></ion-img>
+  </div>
 </ion-content>

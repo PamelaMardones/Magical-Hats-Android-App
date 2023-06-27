@@ -13,6 +13,7 @@ import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { HttpClientModule } from '@angular/common/http';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [HttpClientModule,
@@ -21,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite,],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
