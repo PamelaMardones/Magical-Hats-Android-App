@@ -13,7 +13,7 @@
       <div class="cart-header">
         <div>
           <p class="cart-title">Aquí está tu carrito de compras</p>
-          <p class="cart-total">Total a pagar: ${{ cartService.totalValue | number:'1.0-0'}}</p>
+          <p class="cart-total">Total a pagar: ${{ cartService.totalValue}}</p>
         </div>
       </div>
       <ion-list class="cart-list" *ngIf="cartItems.length > 0">
